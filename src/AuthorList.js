@@ -6,19 +6,18 @@ import SearchBar from "./SearchBar";
 
 class AuthorList extends Component {
   state = {
-    filteredAuthors: this.props.authors
+    query: ""
   };
 
-  filterAuthors = query => {
-    const filteredAuthors = this.props.authors.filter(author => {
-      return `${author.first_name} ${author.last_name}`
-        .toLowerCase()
-        .includes(query.toLowerCase());
-    });
-    this.setState({ filteredAuthors: filteredAuthors });
-  };
+  filterAuthors = query => this.setState({ query });
+
   render() {
-    const authorCards = this.state.filteredAuthors.map(author => (
+    const filteredAuthors = this.props.authors.filter(author =>
+      `${author.first_name} ${author.last_name}`
+        .toLowerCase()
+        .includes(this.state.query.toLowerCase())
+    );
+    const authorCards = filteredAuthors.map(author => (
       <AuthorCard
         key={author.first_name + author.last_name}
         author={author}
