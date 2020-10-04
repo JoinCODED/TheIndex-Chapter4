@@ -1,41 +1,36 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 import authors from "./data.js";
-
 // Components
 import Sidebar from "./Sidebar";
 import AuthorList from "./AuthorList";
 import AuthorDetail from "./AuthorDetail";
 
-class App extends Component {
-  state = {
-    currentAuthor: null
-  };
+const App = () => {
+  const [currentAuthor, setCurrentAuthor] = useState(null);
 
-  selectAuthor = author => this.setState({ currentAuthor: author });
+  const selectAuthor = author => setCurrentAuthor(author);
 
-  unselectAuthor = () => this.setState({ currentAuthor: null });
+  const unselectAuthor = () => setCurrentAuthor(null);
 
-  getContentView = () => {
-    if (this.state.currentAuthor) {
-      return <AuthorDetail author={this.state.currentAuthor} />;
+  const getContentView = () => {
+    if (currentAuthor) {
+      return <AuthorDetail author={currentAuthor} />;
     } else {
-      return <AuthorList authors={authors} selectAuthor={this.selectAuthor} />;
+      return <AuthorList authors={authors} selectAuthor={selectAuthor} />;
     }
   };
 
-  render() {
-    return (
-      <div id="app" className="container-fluid">
-        <div className="row">
-          <div className="col-2">
-            <Sidebar unselectAuthor={this.unselectAuthor} />
-          </div>
-          <div className="content col-10">{this.getContentView()}</div>
+  return (
+    <div id="app" className="container-fluid">
+      <div className="row">
+        <div className="col-2">
+          <Sidebar unselectAuthor={unselectAuthor} />
         </div>
+        <div className="content col-10">{getContentView()}</div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
